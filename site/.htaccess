@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+
+# remove www from host
+RewriteCond %{HTTP_HOST} ^www\.(.+)
+RewriteCond %{HTTPS}s/%1 ^(on(s)|offs)/(.+)
+RewriteRule ^ http%2://%3%{REQUEST_URI} [L,R=301]
+
+# reroute everything through index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+
+</IfModule>
